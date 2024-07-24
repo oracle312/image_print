@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\hodu3\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\myGit\\diosystem\\setprint\\Print\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9B069ADC-F0BE-40CA-97F9-5FECD83D66AA}|Print\\Print.vcxproj|C:\\Users\\hodu3\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\myGit\\diosystem\\setprint\\Print\\Print\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9B069ADC-F0BE-40CA-97F9-5FECD83D66AA}|Print\\Print.vcxproj|solutionrelative:Print\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 105,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\hodu3\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\myGit\\diosystem\\setprint\\Print\\Print\\main.cpp",
+              "RelativeDocumentMoniker": "Print\\main.cpp",
+              "ToolTip": "C:\\Users\\hodu3\\OneDrive\\\uBC14\uD0D5 \uD654\uBA74\\myGit\\diosystem\\setprint\\Print\\Print\\main.cpp",
+              "RelativeToolTip": "Print\\main.cpp",
+              "ViewState": "AQIAAIQAAAAAAAAAAAAAAJEAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-07-24T12:47:36.444Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
