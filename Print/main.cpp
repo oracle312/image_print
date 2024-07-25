@@ -35,32 +35,32 @@ void SetColor(unsigned short text)
 }
 
 void PrintImage(HDC hdc, const std::wstring& imagePath) {
-	// GDI+ Bitmap °´Ã¼¸¦ »ç¿ëÇÏ¿© ÀÌ¹ÌÁö¸¦ ·Îµå
+	// GDI+ Bitmap ê°ì²´ë¥¼ ì‚¬ìš©í•˜ì—¬ ì´ë¯¸ì§€ë¥¼ ë¡œë“œ
 	Bitmap* image = Bitmap::FromFile(imagePath.c_str());
 	if (!image || image->GetLastStatus() != Ok) {
-		std::wcerr << L"ÀÌ¹ÌÁö ·Îµå ½ÇÆĞ : " << imagePath << std::endl;
+		std::wcerr << L"ì´ë¯¸ì§€ ë¡œë“œ ì‹¤íŒ¨ : " << imagePath << std::endl;
 		delete image;
 		return;
 	}
 
-	// ÀÌ¹ÌÁö Å©±â °¡Á®¿À±â
+	// ì´ë¯¸ì§€ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
 	int width = image->GetWidth();
 	int height = image->GetHeight();
 
-	// ÇÁ¸°ÅÍ ÇØ»óµµ °¡Á®¿À±â
+	// í”„ë¦°í„° í•´ìƒë„ ê°€ì ¸ì˜¤ê¸°
 	int printerWidth = GetDeviceCaps(hdc, HORZRES);
 	int printerHeight = GetDeviceCaps(hdc, VERTRES);
 
-	// ºñÀ² °è»ê
+	// ë¹„ìœ¨ ê³„ì‚°
 	float scaleX = static_cast<float>(printerWidth) / width;
 	float scaleY = static_cast<float>(printerHeight) / height;
 	float scale = min(scaleX, scaleY);
 
-	// »õ Å©±â °è»ê
+	// ìƒˆ í¬ê¸° ê³„ì‚°
 	int newWidth = static_cast<int>(width * scale);
 	int newHeight = static_cast<int>(height * scale);
 
-	// ÀÌ¹ÌÁö ·»´õ¸µ
+	// ì´ë¯¸ì§€ ë Œë”ë§
 	Graphics graphics(hdc);
 	graphics.DrawImage(image, 0, 0, newWidth, newHeight);
 
@@ -68,25 +68,25 @@ void PrintImage(HDC hdc, const std::wstring& imagePath) {
 }
 
 void PrintImages(const std::vector<std::wstring>& imagePaths) {
-	// GDI+ ÃÊ±âÈ­
+	// GDI+ ì´ˆê¸°í™”
 	GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
 	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-	// ±âº» ÇÁ¸°ÅÍ °¡Á®¿À±â
+	// ê¸°ë³¸ í”„ë¦°í„° ê°€ì ¸ì˜¤ê¸°
 	DWORD size = 0;
 	GetDefaultPrinter(nullptr, &size);
 	std::vector<wchar_t> printerName(size);
 	if (!GetDefaultPrinter(printerName.data(), &size)) {
-		std::cerr << "±âº»ÇÁ¸°ÅÍ¸¦ °¡Á®¿ÀÁö ¸øÇß½À´Ï´Ù, ±âº»ÇÁ¸°ÅÍ¸¦ ¼³Á¤ÇØÁÖ¼¼¿ä." << std::endl;
+		std::cerr << "ê¸°ë³¸í”„ë¦°í„°ë¥¼ ê°€ì ¸ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤, ê¸°ë³¸í”„ë¦°í„°ë¥¼ ì„¤ì •í•´ì£¼ì„¸ìš”." << std::endl;
 		GdiplusShutdown(gdiplusToken);
 		return;
 	}
 
-	// ÇÁ¸°ÅÍ DC °¡Á®¿À±â
+	// í”„ë¦°í„° DC ê°€ì ¸ì˜¤ê¸°
 	HDC hdc = CreateDC(nullptr, printerName.data(), nullptr, nullptr);
 	if (!hdc) {
-		std::cerr << "ÇÁ¸°ÅÍ DC¸¦ »ı¼ºÇÏÁö ¸øÇß½À´Ï´Ù." << std::endl;
+		std::cerr << "í”„ë¦°í„° DCë¥¼ ìƒì„±í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤." << std::endl;
 		GdiplusShutdown(gdiplusToken);
 		return;
 	}
@@ -96,49 +96,42 @@ void PrintImages(const std::vector<std::wstring>& imagePaths) {
 	di.cbSize = sizeof(di);
 	di.lpszDocName = L"Image Print";
 
-	// ¹®¼­ ½ÃÀÛ
+	// ë¬¸ì„œ ì‹œì‘
 	if (StartDoc(hdc, &di) <= 0) {
-		std::cerr << "ÇÁ¸°ÅÍ¸¦ ½ÃÀÛÇÏÁö ¸øÇß½À´Ï´Ù." << std::endl;
+		std::cerr << "í”„ë¦°í„°ë¥¼ ì‹œì‘í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤." << std::endl;
 		DeleteDC(hdc);
 		GdiplusShutdown(gdiplusToken);
 		return;
 	}
 
 	for (const auto& imagePath : imagePaths) {
-		// ÆäÀÌÁö ½ÃÀÛ
+		// í˜ì´ì§€ ì‹œì‘
 		if (StartPage(hdc) <= 0) {
-			std::cerr << "ÆäÀÌÁö¸¦ ½ÃÀÛÇÏÁö ¸øÇß½À´Ï´Ù" << std::endl;
+			std::cerr << "í˜ì´ì§€ë¥¼ ì‹œì‘í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤" << std::endl;
 			continue;
 		}
 
-		// ÀÌ¹ÌÁö ÀÎ¼â
+		// ì´ë¯¸ì§€ ì¸ì‡„
 		PrintImage(hdc, imagePath);
 
-		// ÆäÀÌÁö ³¡
+		// í˜ì´ì§€ ë
 		EndPage(hdc);
 	}
 
-	// ¹®¼­ ³¡
+	// ë¬¸ì„œ ë
 	EndDoc(hdc);
 	DeleteDC(hdc);
 
-	// GDI+ Á¾·á
+	// GDI+ ì¢…ë£Œ
 	GdiplusShutdown(gdiplusToken);
 }
 
 int main() {
-	SetConsoleTitle(L"µğ¿À½Ã½ºÅÛ");
-	SetColor(SKYBLUE);
-	cout << "______________________________________________" << endl;
-	cout << "                 µğ¿À½Ã½ºÅÛ                    " << endl;
-	SetColor(GREEN);
-	cout << "                          Code By. SIYUL PARK" << endl;
-	SetColor(SKYBLUE);
-	cout << "______________________________________________" << endl;
+
 	cout << endl;
 	SetColor(RED);
-	cout << "[¾Ë¸²] À×Å©¸·ÈûÀ» ¹æÁöÇÏ±âÀ§ÇÑ Á¤±âÀû ÀÎ¼âÀÔ´Ï´Ù." << endl;
-	cout << "[¾Ë¸²] È®ÀÎÀ» ´­·¯ ÀÎ¼âÇØÁÖ¼¼¿ä !!" << endl;
+	cout << "[ì•Œë¦¼] ì‰í¬ë§‰í˜ì„ ë°©ì§€í•˜ê¸°ìœ„í•œ ì •ê¸°ì  ì¸ì‡„ì…ë‹ˆë‹¤." << endl;
+	cout << "[ì•Œë¦¼] í™•ì¸ì„ ëˆŒëŸ¬ ì¸ì‡„í•´ì£¼ì„¸ìš” !!" << endl;
 
 	std::vector<std::wstring> imagePaths = {
 		L"print1",
@@ -146,7 +139,7 @@ int main() {
 		L"print3",
 		L"print4",
 		L"print5",
-		// ´õ ¸¹Àº ÀÌ¹ÌÁö °æ·Î Ãß°¡
+		// ë” ë§ì€ ì´ë¯¸ì§€ ê²½ë¡œ ì¶”ê°€
 	};
 
 	PrintImages(imagePaths);
